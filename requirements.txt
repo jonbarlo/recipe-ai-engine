@@ -1,0 +1,7 @@
+# Core dependencies for Recipe AI Engine
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+requests>=2.31.0
+
+# Optional: for testing
+pytest>=7.4.0 
