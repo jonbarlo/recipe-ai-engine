@@ -19,8 +19,12 @@ help:
 	@echo   recipe         - Generate a recipe (interactive)
 	@echo   recipe-quick   - Quick recipe with sample ingredients
 	@echo.
+	@echo API:
+	@echo   api            - Run FastAPI server with uvicorn
+	@echo.
 	@echo Development:
 	@echo   setup-model    - Setup fine-tuned recipe model
+	@echo   hf-login       - Login to Hugging Face using token from .env
 	@echo   clean          - Clean up temporary files
 	@echo.
 
@@ -55,6 +59,11 @@ recipe-quick:
 	@echo Generating quick recipe with sample ingredients...
 	@python -c "from recipe_ai_engine import RecipeRequest, RecipeGenerator; request = RecipeRequest(ingredients=['chicken breast', 'rice', 'vegetables']); generator = RecipeGenerator(); recipe = generator.generate_recipe(request); print(f'Quick Recipe: {recipe.title}')"
 
+# API server
+api:
+	@echo Starting FastAPI server on http://localhost:8000 ...
+	uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000
+
 # Development commands
 setup-model:
 	@echo "Setting up fine-tuned recipe model..."
@@ -66,3 +75,33 @@ clean:
 	@powershell -Command "Get-ChildItem -Recurse -Directory -Name '__pycache__' | ForEach-Object { Remove-Item -Recurse -Force $_ }"
 	@powershell -Command "Get-ChildItem -Recurse -Include '*.log' | Remove-Item -Force"
 	@echo "Cleanup complete!"
+
+install-train:
+	@echo "Installing training requirements..."
+	python -m pip install -r requirements-train.txt
+
+# Login to Hugging Face using token from .env (Windows PowerShell)
+hf-login:
+	@echo "Logging into Hugging Face via token from .env (HUGGINGFACE_HUB_TOKEN or HUGGINGFACE_TOKEN)..."
+	@python -c "from dotenv import load_dotenv; load_dotenv(); import os,subprocess; t=os.getenv('HUGGINGFACE_HUB_TOKEN') or os.getenv('HUGGINGFACE_TOKEN'); assert t, 'Set HUGGINGFACE_HUB_TOKEN or HUGGINGFACE_TOKEN in .env'; subprocess.run(['huggingface-cli','login','--token', t], check=True)"
+
+train-model-mistral:
+	@echo "Training Mistral model..."
+	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model mistralai/Mistral-7B-Instruct-v0.3 --output F:\recipe-mistral-model --epochs 1 --batch-size 2 --test
+
+remove-train-mistral:
+	@echo "Removing Mistral model..."
+	@powershell -Command "Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub\models--mistralai--Mistral-7B-Instruct-v0.3"
+
+remove-train-llama:
+	@echo "Removing Llama model..."
+	@powershell -Command "Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub\models--meta-llama--Llama-2-7b-hf"
+
+remove-train-qwen2:
+
+train-model-llama:
+	@echo "Training Llama model..."
+	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model --epochs 1 --batch-size 2 --learning-rate 2e-4 --test
+train-model-qwen2:
+	@echo "Training GPT-4o model..."
+	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model Qwen/Qwen2-7B-Instruct --output ./recipe-model --epochs 1 --batch-size 2 --learning-rate 2e-4 --test

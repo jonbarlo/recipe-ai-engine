@@ -81,6 +81,17 @@ ollama pull llama2:7b
 ollama list
 ```
 
+### Using a Fine-Tuned Model
+
+If you have a locally fine-tuned model directory, point the setup script to it:
+
+```bash
+set FINE_TUNED_MODEL_PATH=./recipe-model
+python scripts/setup_fine_tuned_model.py
+```
+
+If `FINE_TUNED_MODEL_PATH` (or `./recipe-model`) is not found, the script will fall back to `llama2:7b`.
+
 ## 🧪 Testing
 
 ```bash
@@ -95,6 +106,30 @@ make test-quality
 
 # Test environment variables
 python scripts/test_env.py
+```
+
+## 🧩 Training / Fine-tuning (Optional)
+
+For on-device fine-tuning using Hugging Face + QLoRA:
+
+```bash
+pip install -r requirements-train.txt
+
+# Authenticate to Hugging Face if using gated models (e.g., Llama 2)
+huggingface-cli login
+
+# Run a small test train
+python scripts/train.py \
+  --dataset datasets/cleaned_recipes.json \
+  --model meta-llama/Llama-2-7b-hf \
+  --output ./recipe-model \
+  --epochs 1 \
+  --batch-size 2 \
+  --test
+
+# Use your trained model with Ollama wrapper
+set FINE_TUNED_MODEL_PATH=./recipe-model
+python scripts/setup_fine_tuned_model.py
 ```
 
 ### Test Results
@@ -195,6 +230,20 @@ for ingredient in recipe.ingredients:
 for i, step in enumerate(recipe.instructions, 1):
     print(f"{i}. {step}")
 ```
+
+### Web API (FastAPI)
+
+Start the API server:
+
+```bash
+uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000
+```
+
+Interactive docs will be available at `http://localhost:8000/docs`.
+
+Endpoints:
+- `GET /health`
+- `POST /recipes/generate`
 
 ### Advanced Usage
 

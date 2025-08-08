@@ -8,7 +8,7 @@ This guide will help you fine-tune your recipe AI model using your existing data
 
 ### 1. **Install Fine-tuning Dependencies**
 ```bash
-pip install -r requirements_fine_tuning.txt
+pip install -r requirements-train.txt
 ```
 
 ### 2. **Hardware Requirements**
@@ -61,12 +61,12 @@ dataset = Dataset.from_dict({
 
 ### 1. **Basic Fine-tuning**
 ```bash
-python fine_tuning_setup.py --dataset your_recipes.json --output ./recipe-model
+python scripts/train.py --dataset your_recipes.json --output ./recipe-model
 ```
 
 ### 2. **Advanced Fine-tuning**
 ```bash
-python fine_tuning_setup.py \
+python scripts/train.py \
     --dataset your_recipes.json \
     --model meta-llama/Llama-2-7b-hf \
     --output ./recipe-model \
@@ -233,25 +233,25 @@ generator = OllamaRecipeGenerator(model_name="recipe-ai")
 ### **Memory Issues**
 ```bash
 # Reduce batch size
-python fine_tuning_setup.py --batch-size 1
+python scripts/train.py --batch-size 1
 
 # Use smaller model
-python fine_tuning_setup.py --model gpt2
+python scripts/train.py --model gpt2
 
 # Disable LoRA (uses more memory)
-python fine_tuning_setup.py --no-lora
+python scripts/train.py --no-lora
 ```
 
 ### **Quality Issues**
 ```bash
 # Increase training epochs
-python fine_tuning_setup.py --epochs 10
+python scripts/train.py --epochs 10
 
 # Lower learning rate
-python fine_tuning_setup.py --learning-rate 1e-5
+python scripts/train.py --learning-rate 1e-5
 
 # Use larger model
-python fine_tuning_setup.py --model meta-llama/Llama-2-13b-hf
+python scripts/train.py --model meta-llama/Llama-2-13b-hf
 ```
 
 ### **Dataset Issues**
@@ -271,7 +271,7 @@ python fine_tuning_setup.py --model meta-llama/Llama-2-13b-hf
 
 ### **Quick Test (Small Dataset)**
 ```bash
-python fine_tuning_setup.py \
+python scripts/train.py \
     --dataset small_test.json \
     --epochs 1 \
     --batch-size 2 \
@@ -280,7 +280,7 @@ python fine_tuning_setup.py \
 
 ### **Production Training (Large Dataset)**
 ```bash
-python fine_tuning_setup.py \
+python scripts/train.py \
     --dataset production_recipes.json \
     --model meta-llama/Llama-2-7b-hf \
     --epochs 5 \

@@ -8,7 +8,11 @@ import subprocess
 import sys
 
 def create_ollama_model():
-    """Create Ollama model from fine-tuned recipe model"""
+    """Create Ollama model from fine-tuned recipe model if available.
+
+    If FINE_TUNED_MODEL_PATH (or ./recipe-model) exists, use it as the base in the Modelfile.
+    Otherwise, fall back to the base llama2:7b model (no fine-tuned weights).
+    """
     
     print("🔧 Setting up fine-tuned recipe model in Ollama...")
     
@@ -23,8 +27,20 @@ def create_ollama_model():
         print("❌ Ollama is not running. Please start Ollama first.")
         return False
     
+    # Determine fine-tuned model path
+    fine_tuned_path = os.environ.get("FINE_TUNED_MODEL_PATH", "./recipe-model")
+    use_fine_tuned = os.path.isdir(fine_tuned_path)
+
+    if use_fine_tuned:
+        base_line = f"FROM {fine_tuned_path}"
+        print(f"🧠 Using fine-tuned model from: {fine_tuned_path}")
+    else:
+        base_line = "FROM llama2:7b"
+        print("⚠️ Fine-tuned model directory not found; using base model llama2:7b.")
+        print("   Set FINE_TUNED_MODEL_PATH to your trained model directory to use it.")
+
     # Create Modelfile for recipe-ai
-    modelfile_content = """FROM llama2:7b
+    modelfile_content = f"""{base_line}
 TEMPLATE "Recipe: Create a recipe using {{.Ingredients}}
 
 Ingredients:
