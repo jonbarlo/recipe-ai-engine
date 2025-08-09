@@ -26,9 +26,9 @@
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "any",
-      "dietary_notes": ""
+      "dietary_notes": "Standard diet"
     },
-    "generation_time": 5.764892101287842,
+    "generation_time": 5.695586919784546,
     "analysis": {
       "quality_score": 9,
       "issues": [
@@ -53,35 +53,35 @@
       "ingredients": [
         {
           "item": "sardines",
-          "amount": "1 can (drained and chopped)"
+          "amount": "1 can (drained and flaked)"
         },
         {
           "item": "bananas",
-          "amount": "2 ripe"
+          "amount": "4"
         },
         {
-          "item": "chocolate",
-          "amount": "60% cocoa dark chocolate, chopped"
+          "item": "chocolate chips",
+          "amount": "1/4 cup"
         },
         {
           "item": "pickles",
-          "amount": "1/4 cup (drained and chopped)"
+          "amount": "1/4 cup"
         }
       ],
       "instructions": [
-        "Step 1: Mix together sardines, bananas, and chocolate in a bowl until well combined.",
+        "Step 1: Mix together sardines, bananas, and chocolate chips in a bowl until well combined.",
         "Step 2: Add pickles to the mixture and stir until everything is evenly coated.",
         "Step 3: Roll the mixture into small balls and place on a baking sheet lined with parchment paper.",
         "Step 4: Refrigerate for at least 30 minutes before serving."
       ],
-      "cooking_time": "15-20 minutes",
-      "preparation_time": "20-30 minutes",
+      "cooking_time": "X minutes",
+      "preparation_time": "X minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "any",
       "dietary_notes": "Vegetarian and gluten-free"
     },
-    "generation_time": 8.480010747909546,
+    "generation_time": 8.147297382354736,
     "analysis": {
       "quality_score": 9,
       "issues": [
@@ -121,7 +121,7 @@
         },
         {
           "item": "rice",
-          "amount": "1 cup cooked"
+          "amount": "1 cup"
         },
         {
           "item": "onion",
@@ -133,15 +133,15 @@
         },
         {
           "item": "ginger",
-          "amount": "2 tablespoons"
+          "amount": "1-inch piece"
         },
         {
           "item": "soy sauce",
-          "amount": "2 tablespoons"
+          "amount": "2 tbsp"
         },
         {
           "item": "sesame oil",
-          "amount": "1 tablespoon"
+          "amount": "2 tbsp"
         },
         {
           "item": "carrots",
@@ -153,11 +153,11 @@
         },
         {
           "item": "mushrooms",
-          "amount": "1 cup sliced"
+          "amount": "1 cup"
         },
         {
           "item": "broccoli",
-          "amount": "1 cup florets"
+          "amount": "1 cup"
         },
         {
           "item": "eggs",
@@ -165,42 +165,39 @@
         },
         {
           "item": "green onions",
-          "amount": "1/4 cup chopped"
+          "amount": "1/4 cup"
         },
         {
           "item": "sesame seeds",
-          "amount": "1 tablespoon"
+          "amount": "1 tbsp"
         }
       ],
       "instructions": [
-        "Step 1: Prepare the chicken and vegetables",
-        "Chop the onion, garlic, and ginger. Cut the chicken breast into thin slices.",
-        "Step 2: Make the sesame crust",
-        "In a small bowl, mix together the soy sauce, sesame oil, and 1 tablespoon of water. Stir in the chopped green onions.",
-        "Place the chicken breast in a shallow dish and brush the sesame crust mixture evenly over both sides of the chicken.",
-        "Step 3: Cook the chicken and vegetables",
-        "Heat 2 tablespoons of oil in a large skillet or wok over medium-high heat. Add the chicken breast and cook for 5-7 minutes on each side, or until cooked through.",
-        "Add the chopped onion, garlic, and ginger to the skillet and cook for an additional 2-3 minutes, or until the vegetables are tender.",
-        "Add the sliced mushrooms, bell peppers, and broccoli to the skillet and cook for an additional 4-5 minutes, or until the vegetables are tender and lightly browned.",
-        "Step 4: Serve",
-        "Serve the sesame crusted chicken and vegetables hot, garnished with additional chopped green onions and sesame seeds if desired."
+        "Step 1: Prepare the chicken",
+        "Step 2: Cook the rice",
+        "Step 3: Chop and saut\u00e9 the vegetables",
+        "Step 4: Mix the marinade and coat the chicken",
+        "Step 5: Stir fry the chicken and vegetables",
+        "Step 6: Add the eggs and cook until set",
+        "Step 7: Serve and garnish with green onions and sesame seeds"
       ],
-      "cooking_time": "20-25 minutes",
-      "preparation_time": "15-20 minutes",
+      "cooking_time": "30-40 minutes",
+      "preparation_time": "20-30 minutes",
       "difficulty": "medium",
       "servings": 4,
-      "cuisine_type": "asian",
+      "cuisine_type": "Asian",
       "dietary_notes": "Standard diet"
     },
-    "generation_time": 16.120731353759766,
+    "generation_time": 11.803365230560303,
     "analysis": {
-      "quality_score": 6,
+      "quality_score": 0,
       "issues": [
-        "Unused ingredients: eggs, carrots, rice, chili flakes"
+        "Unused ingredients: bell peppers, chili flakes, mushrooms, garlic, soy sauce, carrots, ginger, sesame oil, broccoli",
+        "Missing cooking method details"
       ],
-      "used_ingredients": 11,
+      "used_ingredients": 6,
       "total_ingredients": 15,
-      "instruction_count": 11
+      "instruction_count": 7
     },
     "success": true
   },
@@ -229,18 +226,19 @@
       ],
       "instructions": [
         "Step 1: Cook the rice according to package instructions.",
-        "Step 2: Cut the tofu into small cubes and cook in a pan with some oil until golden brown.",
-        "Step 3: Add the vegetables to the pan and cook until tender.",
-        "Step 4: Serve the tofu and vegetables over the cooked rice."
+        "Step 2: Cut the tofu into small cubes and saut\u00e9 in a pan with some oil until golden brown.",
+        "Step 3: Add the vegetables (such as broccoli, carrots, and bell peppers) to the pan and cook until tender.",
+        "Step 4: Combine the cooked rice, tofu, and vegetables in a bowl and mix well.",
+        "Step 5: Serve hot and enjoy!"
       ],
-      "cooking_time": "20-25 minutes",
-      "preparation_time": "10-15 minutes",
+      "cooking_time": "30 minutes",
+      "preparation_time": "20 minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "Asian",
       "dietary_notes": "Vegetarian and gluten-free"
     },
-    "generation_time": 7.279415130615234,
+    "generation_time": 7.86496114730835,
     "analysis": {
       "quality_score": 9,
       "issues": [
@@ -248,7 +246,7 @@
       ],
       "used_ingredients": 3,
       "total_ingredients": 3,
-      "instruction_count": 4
+      "instruction_count": 5
     },
     "success": true
   },
@@ -270,34 +268,39 @@
         },
         {
           "item": "tomato",
-          "amount": "2 medium tomatoes"
+          "amount": "2 medium"
         },
         {
           "item": "basil",
-          "amount": "1/4 cup chopped basil"
+          "amount": "1/4 cup, chopped"
+        },
+        {
+          "item": "olive oil",
+          "amount": "2 tbsp"
         }
       ],
       "instructions": [
-        "Step 1: Cook pasta according to package instructions until al dente.",
-        "Step 2: In a large skillet, heat olive oil over medium heat. Add minced garlic and cook for 1-2 minutes until fragrant.",
-        "Step 3: Add the tomatoes to the skillet and cook for 2-3 minutes until they start to release their juices.",
-        "Step 4: Stir in the chopped basil and cook for an additional minute.",
-        "Step 5: Drain the pasta and add it to the skillet with the tomato mixture. Toss everything together until the pasta is well coated with the tomato sauce."
+        "Step 1: Cook pasta according to package instructions.",
+        "Step 2: In a large skillet, heat olive oil over medium heat. Add chopped basil and cook for 1-2 minutes until fragrant.",
+        "Step 3: Add diced tomato to the skillet and cook for 2-3 minutes until they start to soften.",
+        "Step 4: Add cooked pasta to the skillet and toss with tomato and basil mixture until well combined.",
+        "Step 5: Season with salt and pepper to taste."
       ],
-      "cooking_time": "20-25 minutes",
+      "cooking_time": "15-20 minutes",
       "preparation_time": "10-15 minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "italian",
       "dietary_notes": "Vegetarian"
     },
-    "generation_time": 8.785664796829224,
+    "generation_time": 8.56995701789856,
     "analysis": {
-      "quality_score": 9,
+      "quality_score": 8,
       "issues": [
+        "Unused ingredients: garlic",
         "First step not preparatory"
       ],
-      "used_ingredients": 5,
+      "used_ingredients": 4,
       "total_ingredients": 5,
       "instruction_count": 5
     },
@@ -330,34 +333,33 @@
         },
         {
           "item": "flour",
-          "amount": "1 1/2 cups"
+          "amount": "1 1/4 cups"
         },
         {
           "item": "sugar",
-          "amount": "1 cup"
+          "amount": "1/2 cup"
         }
       ],
       "instructions": [
-        "Preheat oven to 350\u00b0F (180\u00b0C). Line a 12-cup muffin tin with muffin liners.",
-        "In a large bowl, whisk together flour, sugar, and eggs. Beat in the chocolate until well combined.",
-        "Add the grated zucchini and mix until just combined.",
-        "Spoon batter into muffin cups and bake for 18-20 minutes or until a toothpick inserted into the center of a muffin comes out clean.",
+        "Preheat oven to 375\u00b0F (190\u00b0C). Line a 12-cup muffin tin with paper liners.",
+        "In a large bowl, whisk together flour, sugar, and eggs. Add grated zucchini, chocolate chips, and mix until well combined.",
+        "Pour batter into prepared muffin tin and bake for 18-20 minutes or until a toothpick inserted in the center comes out clean.",
         "Let cool in the tin for 5 minutes, then transfer to a wire rack to cool completely."
       ],
       "cooking_time": "20 minutes",
       "preparation_time": "15 minutes",
       "difficulty": "medium",
       "servings": 4,
-      "cuisine_type": "baked goods",
+      "cuisine_type": "bakery",
       "dietary_notes": "Vegetarian, gluten-free"
     },
-    "generation_time": 9.641513347625732,
+    "generation_time": 9.235209941864014,
     "analysis": {
       "quality_score": 10,
       "issues": [],
       "used_ingredients": 5,
       "total_ingredients": 5,
-      "instruction_count": 5
+      "instruction_count": 4
     },
     "success": true
   },
@@ -371,11 +373,11 @@
       "avocado"
     ],
     "recipe": {
-      "title": "Salmon and Avocado Quinoa Bowl with Spinach Eggs",
+      "title": "Salmon and Quinoa Bowl with Spinach and Avocado",
       "ingredients": [
         {
           "item": "salmon fillet",
-          "amount": "1 lb"
+          "amount": "4 oz"
         },
         {
           "item": "quinoa",
@@ -383,32 +385,32 @@
         },
         {
           "item": "spinach",
-          "amount": "1/2 cup"
+          "amount": "1 cup"
         },
         {
-          "item": "eggs",
-          "amount": "2"
+          "item": "avocado",
+          "amount": "1 medium"
         }
       ],
       "instructions": [
         "Step 1: Cook quinoa according to package instructions. Drain and set aside.",
-        "Step 2: In a non-stick pan, cook salmon fillet over medium heat for 3-4 minutes per side or until cooked through. Remove from heat and set aside.",
-        "Step 3: In the same pan, add eggs and scramble them until cooked through. Set aside.",
-        "Step 4: In a separate pan, saut\u00e9 spinach over medium heat until wilted. Add to bowl with quinoa and salmon.",
-        "Step 5: Serve the salmon and eggs on top of the quinoa and spinach mixture."
+        "Step 2: Heat a non-stick pan over medium heat. Add salmon fillet and cook for 3-4 minutes per side, or until cooked through. Remove from pan and set aside.",
+        "Step 3: In the same pan, add spinach and cook until wilted. Set aside.",
+        "Step 4: In a separate bowl, mash avocado with a fork. Add to the quinoa and salmon mixture.",
+        "Step 5: Serve and enjoy!"
       ],
       "cooking_time": "20-25 minutes",
       "preparation_time": "10-15 minutes",
       "difficulty": "medium",
       "servings": 4,
-      "cuisine_type": "vegetarian",
+      "cuisine_type": "healthy",
       "dietary_notes": "Vegetarian and gluten-free"
     },
-    "generation_time": 9.217000484466553,
+    "generation_time": 8.854314804077148,
     "analysis": {
       "quality_score": 8,
       "issues": [
-        "Unused ingredients: avocado",
+        "Unused ingredients: eggs",
         "First step not preparatory"
       ],
       "used_ingredients": 4,
@@ -434,7 +436,7 @@
         },
         {
           "item": "potato",
-          "amount": "1 medium potato"
+          "amount": "1 medium"
         },
         {
           "item": "oil",
@@ -447,25 +449,27 @@
       ],
       "instructions": [
         "Step 1: Preheat oil in a large skillet over medium-high heat.",
-        "Step 2: Season chicken wings with salt, pepper, and your desired spices.",
-        "Step 3: Add chicken wings to the skillet and cook until golden brown and cooked through, about 10-12 minutes.",
-        "Step 4: Add diced potato to the skillet and cook for an additional 5-7 minutes, or until tender.",
-        "Step 5: Serve hot and enjoy!"
+        "Step 2: Add chicken wings to the skillet and cook until browned on all sides, about 5-7 minutes.",
+        "Step 3: Remove chicken from the skillet and set aside.",
+        "Step 4: Add diced potato to the skillet and cook until tender, about 10-12 minutes.",
+        "Step 5: Return chicken to the skillet and stir in spices of your choice.",
+        "Step 6: Cook for an additional 2-3 minutes or until the chicken is fully coated in the spice mixture.",
+        "Step 7: Serve hot and enjoy!"
       ],
-      "cooking_time": "20-25 minutes",
-      "preparation_time": "10-15 minutes",
+      "cooking_time": "X minutes",
+      "preparation_time": "X minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "any",
       "dietary_notes": "Standard diet"
     },
-    "generation_time": 8.332911491394043,
+    "generation_time": 9.022313356399536,
     "analysis": {
       "quality_score": 10,
       "issues": [],
       "used_ingredients": 4,
       "total_ingredients": 4,
-      "instruction_count": 5
+      "instruction_count": 7
     },
     "success": true
   },
@@ -478,11 +482,11 @@
       "herbs"
     ],
     "recipe": {
-      "title": "Turkey and Sweet Potato Cranberry Herb Roast",
+      "title": "Turkey and Sweet Potato Cranberry Herb Medley",
       "ingredients": [
         {
           "item": "turkey breast",
-          "amount": "2 lbs"
+          "amount": "1 lb"
         },
         {
           "item": "sweet potatoes",
@@ -493,32 +497,33 @@
           "amount": "1 cup"
         },
         {
-          "item": "fresh herbs (such as rosemary, thyme, and sage)",
-          "amount": "generous pinch"
+          "item": "fresh herbs (such as rosemary, thyme, or parsley)",
+          "amount": "1/4 cup"
         }
       ],
       "instructions": [
-        "Preheat oven to 375\u00b0F. Rinse the turkey breast under cold running water and pat dry with paper towels. Season inside and out with salt, pepper, and your choice of herbs. Place the turkey on a roasting pan lined with parchment paper.",
-        "Toss the sweet potatoes in a little bit of olive oil and season with salt and pepper. Spread them out on a separate roasting pan and roast alongside the turkey for about 30 minutes, or until they are tender when pierced with a fork.",
-        "In a small bowl, mix together the cranberries, herbs, and a drizzle of olive oil. Spread them out on a separate baking sheet and roast for about 15-20 minutes, or until the cranberries are tender and lightly caramelized.",
-        "After 30 minutes of roasting, baste the turkey with its pan juices and continue to roast for an additional 20-25 minutes, or until it reaches an internal temperature of 165\u00b0F. Let it rest for 10-15 minutes before carving and serving.",
-        "While the turkey is cooking, toss the sweet potatoes with a little bit of olive oil and season with salt and pepper. Serve them alongside the turkey as a side dish.",
-        "Once the cranberries are done roasting, transfer them to a bowl and toss them with a little bit of olive oil and honey. Serve them as a sweet and tangy condiment alongside the turkey."
+        "Step 1: Preheat oven to 375\u00b0F. Line a baking sheet with parchment paper.",
+        "Step 2: Cut the turkey breast into 1-inch cubes and place on the prepared baking sheet.",
+        "Step 3: Peel and dice the sweet potatoes into 1/2-inch cubes and place on the baking sheet with the turkey.",
+        "Step 4: Rinse the cranberries and pat them dry with a paper towel. Sprinkle them over the turkey and sweet potatoes.",
+        "Step 5: Sprinkle the fresh herbs over the entire mixture and toss gently to combine.",
+        "Step 6: Bake for 30-40 minutes or until the turkey is cooked through and the sweet potatoes are tender.",
+        "Step 7: Remove from oven and let rest for 10 minutes before serving."
       ],
-      "cooking_time": "1 hour 25 minutes",
-      "preparation_time": "30 minutes",
+      "cooking_time": "30-40 minutes",
+      "preparation_time": "20 minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "any",
       "dietary_notes": "Standard diet"
     },
-    "generation_time": 13.519797325134277,
+    "generation_time": 10.448899745941162,
     "analysis": {
       "quality_score": 10,
       "issues": [],
       "used_ingredients": 4,
       "total_ingredients": 4,
-      "instruction_count": 6
+      "instruction_count": 7
     },
     "success": true
   },
@@ -555,18 +560,18 @@
         "Step 2: Rinse the cauliflower and remove any leaves or stem. Cut it into florets.",
         "Step 3: In a food processor, pulse the cauliflower until it resembles rice.",
         "Step 4: In a large mixing bowl, combine the chicken breast, shredded cheese, and butter. Mix well.",
-        "Step 5: Add the cauliflower rice to the mixing bowl and toss until coated with the cheese mixture.",
-        "Step 6: Transfer the mixture to a baking dish and bake for 20-25 minutes or until the chicken is cooked through and the cauliflower is tender.",
-        "Step 7: Remove from oven and let it rest for a few minutes before serving."
+        "Step 5: Add the cauliflower rice to the mixing bowl and mix until everything is well combined.",
+        "Step 6: Transfer the mixture to a baking dish and bake for 20-25 minutes or until the chicken is cooked through and the cheese is melted and golden brown.",
+        "Step 7: Serve hot and enjoy!"
       ],
-      "cooking_time": "X minutes",
-      "preparation_time": "X minutes",
+      "cooking_time": "20-25 minutes",
+      "preparation_time": "10 minutes",
       "difficulty": "medium",
       "servings": 4,
       "cuisine_type": "any",
-      "dietary_notes": "Standard diet"
+      "dietary_notes": "Low carb, gluten-free"
     },
-    "generation_time": 9.93160367012024,
+    "generation_time": 9.999606132507324,
     "analysis": {
       "quality_score": 10,
       "issues": [],

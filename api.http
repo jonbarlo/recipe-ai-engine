@@ -44,3 +44,15 @@ Accept: {{contentType}}
   "difficulty_level": "medium",
   "serving_size": 4
 }
+
+### Generate Recipe - Italian Style
+POST {{baseUrl}}/recipes/generate
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "ingredients": ["white cream", "cheese"],
+  "cuisine_type": "Italian",
+  "difficulty_level": "medium",
+  "serving_size": 4
+}

@@ -1,6 +1,7 @@
 import json
 from fastapi.testclient import TestClient
-from recipe_ai_engine.api.routes import create_app, get_generator
+from recipe_ai_engine.api import create_app
+from recipe_ai_engine.api.deps import get_generator
 from recipe_ai_engine.core.models import RecipeRequest, RecipeResponse, HealthResponse
 
 
@@ -19,10 +20,11 @@ class FakeGenerator:
                 "Cook ingredients",
                 "Serve and enjoy",
             ],
-            cooking_time=20,
-            difficulty="easy",
-            servings=request.servings or 2,
-            cuisine=request.cuisine or "International",
+            cooking_time="20 minutes",
+            preparation_time="10 minutes",
+            difficulty=request.difficulty_level or "easy",
+            servings=request.serving_size or 2,
+            cuisine_type=request.cuisine_type or "International",
         )
 
 
@@ -50,9 +52,9 @@ def test_generate_recipe_endpoint():
 
     payload = {
         "ingredients": ["chicken", "rice", "vegetables"],
-        "servings": 4,
-        "cuisine": "Asian",
-        "difficulty": "medium",
+        "serving_size": 4,
+        "cuisine_type": "Asian",
+        "difficulty_level": "medium",
     }
 
     resp = client.post("/recipes/generate", json=payload)
@@ -63,4 +65,4 @@ def test_generate_recipe_endpoint():
     assert len(recipe.ingredients) == len(payload["ingredients"])
     assert len(recipe.instructions) >= 2
     assert recipe.servings == 4
-    assert recipe.cuisine == "Asian"
+    assert recipe.cuisine_type == "Asian"

@@ -74,11 +74,11 @@ recipe-quick:
 # API server
 api:
 	@echo Starting FastAPI server on http://localhost:8000 ...
-	uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000
+	uvicorn recipe_ai_engine.api.app:app --host 0.0.0.0 --port 8000
 
 api-dev:
 	@echo Starting FastAPI server (dev, auto-reload) on http://localhost:8000 ...
-	uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000 --reload
+	uvicorn recipe_ai_engine.api.app:app --host 0.0.0.0 --port 8000 --reload
 
 # Development commands
 setup-model:
