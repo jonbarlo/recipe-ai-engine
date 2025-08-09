@@ -27,6 +27,17 @@ help:
 	@echo   hf-login       - Login to Hugging Face using token from .env
 	@echo   clean          - Clean up temporary files
 	@echo.
+	@echo Training Installation:
+	@echo   install-train-cpu - Install training requirements (CPU only)
+	@echo   install-train-gpu - Install training requirements (GPU/CUDA)
+	@echo   install-train     - Install training requirements (default: GPU)
+	@echo.
+	@echo Training Commands:
+	@echo   train-gpt2-cpu/gpu     - Train GPT2 (CPU/GPU)
+	@echo   train-mistral-cpu/gpu  - Train Mistral (CPU/GPU)
+	@echo   train-llama-cpu/gpu    - Train Llama 2 (CPU/GPU)
+	@echo   train-gpt2/mistral/llama - Default GPU training
+	@echo.
 
 # Installation commands
 install:
@@ -76,32 +87,95 @@ clean:
 	@powershell -Command "Get-ChildItem -Recurse -Include '*.log' | Remove-Item -Force"
 	@echo "Cleanup complete!"
 
-install-train:
-	@echo "Installing training requirements..."
+# Training installation commands
+install-train-cpu:
+	@echo "Installing training requirements (CPU only)..."
 	python -m pip install -r requirements-train.txt
+
+install-train-gpu:
+	@echo "Installing training requirements with CUDA support..."
+	python -m pip install -r requirements-train.txt --index-url https://download.pytorch.org/whl/cu121
+
+# GPU detection
+check-gpu:
+	@echo "Checking GPU availability..."
+	@python -c "import torch; print('CUDA available:', torch.cuda.is_available()); print('GPU count:', torch.cuda.device_count()); print('GPU name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A')"
+
+# Default training install (GPU if available, CPU otherwise)
+install-train: install-train-gpu
 
 # Login to Hugging Face using token from .env (Windows PowerShell)
 hf-login:
 	@echo "Logging into Hugging Face via token from .env (HUGGINGFACE_HUB_TOKEN or HUGGINGFACE_TOKEN)..."
 	@python -c "from dotenv import load_dotenv; load_dotenv(); import os,subprocess; t=os.getenv('HUGGINGFACE_HUB_TOKEN') or os.getenv('HUGGINGFACE_TOKEN'); assert t, 'Set HUGGINGFACE_HUB_TOKEN or HUGGINGFACE_TOKEN in .env'; subprocess.run(['huggingface-cli','login','--token', t], check=True)"
 
-train-model-mistral:
-	@echo "Training Mistral model..."
-	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model mistralai/Mistral-7B-Instruct-v0.3 --output F:\recipe-mistral-model --epochs 1 --batch-size 2 --test
+# Training commands for different models (GPU/CPU variants)
+# GPT2 Training
+train-gpt2-cpu:
+	@echo "Training GPT2 model on CPU (slow but works everywhere)..."
+	python scripts/train_gpt2.py --dataset datasets/recipe_dataset_1000.json --output ./recipe-model-gpt2-cpu --epochs 1 --batch-size 2 --test
 
-remove-train-mistral:
-	@echo "Removing Mistral model..."
-	@powershell -Command "Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub\models--mistralai--Mistral-7B-Instruct-v0.3"
+train-gpt2-gpu:
+	@echo "Training GPT2 model on GPU (fast, requires CUDA)..."
+	python scripts/train_gpt2.py --dataset datasets/recipe_dataset_50000.json --output ./recipe-model-gpt2-gpu --epochs 1 --batch-size 2 --test
 
-remove-train-llama:
-	@echo "Removing Llama model..."
-	@powershell -Command "Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub\models--meta-llama--Llama-2-7b-hf"
+train-gpt2-full-cpu:
+	@echo "Training GPT2 model on CPU (full training with full dataset)..."
+	python scripts/train_gpt2.py --dataset datasets/full_recipe_dataset.json --output ./recipe-model-gpt2-cpu --epochs 3 --batch-size 2
 
-remove-train-qwen2:
+train-gpt2-full-gpu:
+	@echo "Training GPT2 model on GPU (full training with full dataset)..."
+	python scripts/train_gpt2.py --dataset datasets/full_recipe_dataset.json --output ./recipe-model-gpt2-gpu --epochs 3 --batch-size 1
 
-train-model-llama:
-	@echo "Training Llama model..."
-	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model --epochs 1 --batch-size 2 --learning-rate 2e-4 --test
-train-model-qwen2:
-	@echo "Training GPT-4o model..."
-	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model Qwen/Qwen2-7B-Instruct --output ./recipe-model --epochs 1 --batch-size 2 --learning-rate 2e-4 --test
+# Mistral Training
+train-mistral-cpu:
+	@echo "Training Mistral model on CPU (slow, high VRAM models)..."
+	python scripts/train_mistral.py --dataset datasets/recipe_dataset_1000.json --output ./recipe-model-mistral-cpu --epochs 1 --batch-size 1 --test
+
+train-mistral-gpu:
+	@echo "Training Mistral model on GPU (recommended for 7B models)..."
+	python scripts/train_mistral.py --dataset datasets/recipe_dataset_1000.json --output ./recipe-model-mistral-gpu --epochs 1 --batch-size 2 --test
+
+train-mistral-full-cpu:
+	@echo "Training Mistral model on CPU (full training with full dataset)..."
+	python scripts/train_mistral.py --dataset datasets/full_recipe_dataset.json --output ./recipe-model-mistral-cpu --epochs 3 --batch-size 1
+
+train-mistral-full-gpu:
+	@echo "Training Mistral model on GPU (full training with full dataset)..."
+	python scripts/train_mistral.py --dataset datasets/full_recipe_dataset.json --output ./recipe-model-mistral-gpu --epochs 3 --batch-size 2
+
+# Llama 2 Training
+train-llama-cpu:
+	@echo "Training Llama 2 model on CPU (very slow, not recommended)..."
+	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model-llama-cpu --epochs 1 --batch-size 1 --learning-rate 2e-4 --test
+
+train-llama-gpu:
+	@echo "Training Llama 2 model on GPU (recommended for 7B models)..."
+	python scripts/train.py --dataset datasets/recipe_dataset_1000.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model-llama-gpu --epochs 1 --batch-size 2 --learning-rate 2e-4 --test
+
+train-llama-full-cpu:
+	@echo "Training Llama 2 model on CPU (full training with full dataset, very slow)..."
+	python scripts/train.py --dataset datasets/full_recipe_dataset.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model-llama-cpu --epochs 3 --batch-size 1 --learning-rate 2e-4
+
+train-llama-full-gpu:
+	@echo "Training Llama 2 model on GPU (full training with full dataset)..."
+	python scripts/train.py --dataset datasets/full_recipe_dataset.json --model meta-llama/Llama-2-7b-hf --output ./recipe-model-llama-gpu --epochs 3 --batch-size 2 --learning-rate 2e-4
+
+# Default training commands (GPU if available, CPU otherwise)
+train-gpt2: train-gpt2-gpu
+train-gpt2-full: train-gpt2-full-gpu
+train-mistral: train-mistral-gpu
+train-mistral-full: train-mistral-full-gpu
+train-llama: train-llama-gpu
+train-llama-full: train-llama-full-gpu
+
+# Cleanup commands for cached models
+clean-cache:
+	@echo "Cleaning Hugging Face cache..."
+	@powershell -Command "Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub\models--* -ErrorAction SilentlyContinue"
+	@echo "Cache cleaned!"
+
+clean-models:
+	@echo "Cleaning trained models..."
+	@powershell -Command "Remove-Item -Recurse -Force ./recipe-model-* -ErrorAction SilentlyContinue"
+	@echo "Models cleaned!"

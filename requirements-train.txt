@@ -4,8 +4,10 @@ peft>=0.11.1
 accelerate>=0.33.0
 bitsandbytes>=0.43.1
 trl>=0.9.6
-# Install a CUDA-enabled torch separately appropriate for your GPU/driver
-# e.g., pip install --index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio
+# CUDA-enabled PyTorch for GPU training
+torch>=2.2.0+cu121
+torchvision>=0.17.0+cu121
+torchaudio>=2.2.0+cu121
 python-dotenv>=1.0.1
 sentencepiece>=0.1.99
 protobuf>=4.25.3

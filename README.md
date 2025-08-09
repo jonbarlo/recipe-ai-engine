@@ -1,6 +1,6 @@
 # Recipe AI Engine 🍳
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ollama](https://img.shields.io/badge/Ollama-Required-orange.svg)](https://ollama.ai/)
 
@@ -29,7 +29,7 @@ A professional, self-hosted AI service for generating cooking recipes based on a
 
 ## 📋 Prerequisites
 
-- **Python 3.11+** - Modern Python with type hints and async support
+- **Python 3.10+** - Modern Python with type hints and async support
 - **[Ollama](https://ollama.ai/)** - Local AI model serving platform
 - **`llama2:7b` model** - Downloaded and ready in Ollama
 - **Git** - For cloning and version control
@@ -112,24 +112,71 @@ python scripts/test_env.py
 
 For on-device fine-tuning using Hugging Face + QLoRA:
 
+### **Quick Setup**
 ```bash
-pip install -r requirements-train.txt
+# Install training requirements (GPU recommended)
+make install-train-gpu
 
-# Authenticate to Hugging Face if using gated models (e.g., Llama 2)
-huggingface-cli login
+# Check GPU availability
+make check-gpu
 
-# Run a small test train
+# Login to Hugging Face (for gated models like Llama 2)
+make hf-login
+```
+
+### **Training Commands**
+
+#### **GPT2 Training (Fast, Low VRAM)**
+```bash
+# Test training (1000 recipes)
+make train-gpt2-gpu
+
+# Full training (complete dataset)
+make train-gpt2-full-gpu
+```
+
+#### **Mistral Training (Good Balance)**
+```bash
+# Test training (1000 recipes)
+make train-mistral-gpu
+
+# Full training (complete dataset)
+make train-mistral-full-gpu
+```
+
+#### **Llama 2 Training (High Quality)**
+```bash
+# Test training (1000 recipes)
+make train-llama-gpu
+
+# Full training (complete dataset)
+make train-llama-full-gpu
+```
+
+#### **CPU Training (Slower but Works Everywhere)**
+```bash
+# Install CPU requirements
+make install-train-cpu
+
+# Train on CPU
+make train-gpt2-cpu
+make train-mistral-cpu
+make train-llama-cpu
+```
+
+### **Manual Training**
+```bash
+# Install training requirements
+pip install -r requirements-train.txt --index-url https://download.pytorch.org/whl/cu121
+
+# Run training
 python scripts/train.py \
-  --dataset datasets/cleaned_recipes.json \
+  --dataset datasets/recipe_dataset_1000.json \
   --model meta-llama/Llama-2-7b-hf \
   --output ./recipe-model \
   --epochs 1 \
   --batch-size 2 \
   --test
-
-# Use your trained model with Ollama wrapper
-set FINE_TUNED_MODEL_PATH=./recipe-model
-python scripts/setup_fine_tuned_model.py
 ```
 
 ### Test Results
@@ -348,9 +395,23 @@ make test-quality   # Test recipe quality
 make recipe         # Interactive recipe generation
 make recipe-quick   # Quick recipe with sample ingredients
 
+# Training Installation
+make install-train-cpu # Install training requirements (CPU only)
+make install-train-gpu # Install training requirements (GPU/CUDA)
+make check-gpu      # Check GPU availability
+
+# Training Commands
+make train-gpt2-cpu/gpu     # Train GPT2 (CPU/GPU)
+make train-mistral-cpu/gpu  # Train Mistral (CPU/GPU)
+make train-llama-cpu/gpu    # Train Llama 2 (CPU/GPU)
+make train-gpt2/mistral/llama # Default GPU training
+
 # Development
 make setup-model    # Setup fine-tuned recipe model
+make hf-login       # Login to Hugging Face
 make clean          # Clean up temporary files
+make clean-cache    # Clean Hugging Face cache
+make clean-models   # Clean trained models
 make help           # Show all available commands
 ```
 
@@ -404,3 +465,6 @@ This project is licensed under the MIT License.
 - Built with [Ollama](https://ollama.ai/)
 - Uses [Llama 2](https://huggingface.co/meta-llama) as the base model
 - Follows Python packaging best practices
+
+## CV
+Python 3, OLLAMA, LLMs (GPT2, Llama2, Mistral), Pydantic, FastAPI, Hugging Face, QLoRA, PyTorch, Transformers, CUDA, GPU, CPU, Linux, Windows, MacOS, Docker, Git, Makefile, VSCode, PyCharm, Cursor

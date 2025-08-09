@@ -59,15 +59,46 @@ dataset = Dataset.from_dict({
 
 ## Quick Start
 
-### 1. **Basic Fine-tuning**
+### 1. **Install Training Dependencies**
 ```bash
-python scripts/train.py --dataset your_recipes.json --output ./recipe-model
+# GPU training (recommended)
+make install-train-gpu
+
+# CPU training (slower but works everywhere)
+make install-train-cpu
+
+# Check GPU availability
+make check-gpu
 ```
 
-### 2. **Advanced Fine-tuning**
+### 2. **Quick Test Training**
+```bash
+# GPT2 (fastest, lowest VRAM)
+make train-gpt2-gpu
+
+# Mistral (good balance)
+make train-mistral-gpu
+
+# Llama 2 (highest quality)
+make train-llama-gpu
+```
+
+### 3. **Full Production Training**
+```bash
+# GPT2 full training
+make train-gpt2-full-gpu
+
+# Mistral full training
+make train-mistral-full-gpu
+
+# Llama 2 full training
+make train-llama-full-gpu
+```
+
+### 4. **Manual Training**
 ```bash
 python scripts/train.py \
-    --dataset your_recipes.json \
+    --dataset datasets/recipe_dataset_1000.json \
     --model meta-llama/Llama-2-7b-hf \
     --output ./recipe-model \
     --epochs 5 \
@@ -79,10 +110,10 @@ python scripts/train.py \
 ## Configuration Options
 
 ### **Model Selection**
-- `meta-llama/Llama-2-7b-hf` (Recommended)
-- `meta-llama/Llama-2-13b-hf` (Better quality, more VRAM)
-- `microsoft/DialoGPT-medium` (Smaller, faster)
-- `gpt2` (Smallest, fastest)
+- **GPT2** (Fastest, lowest VRAM, good for testing)
+- **Mistral 7B** (Good balance of quality and speed)
+- **Llama 2 7B** (Highest quality, requires more VRAM)
+- **Llama 2 13B** (Best quality, requires 24GB+ VRAM)
 
 ### **Training Parameters**
 - `--epochs`: Number of training epochs (1-10)
@@ -259,29 +290,67 @@ python scripts/train.py --model meta-llama/Llama-2-13b-hf
 - **Poor quality**: Clean and standardize data
 - **Format issues**: Convert to JSON format
 
+## Training Scripts
+
+The project includes dedicated training scripts for different models:
+
+### **GPT2 Training (`scripts/train_gpt2.py`)**
+- **Best for**: Quick testing, low VRAM systems
+- **VRAM usage**: ~4GB
+- **Speed**: Fastest training
+- **Quality**: Good for basic recipe generation
+
+### **Mistral Training (`scripts/train_mistral.py`)**
+- **Best for**: Production use, good balance
+- **VRAM usage**: ~8GB
+- **Speed**: Medium training time
+- **Quality**: Excellent recipe generation
+
+### **Llama 2 Training (`scripts/train.py`)**
+- **Best for**: Highest quality recipes
+- **VRAM usage**: ~12GB
+- **Speed**: Slower training
+- **Quality**: Best recipe generation
+
 ## Next Steps
 
 1. **Prepare your dataset** in the correct format
-2. **Install fine-tuning dependencies**
-3. **Run the fine-tuning script**
-4. **Test the fine-tuned model**
-5. **Integrate with your existing system**
+2. **Install fine-tuning dependencies** (`make install-train-gpu`)
+3. **Choose your model** (GPT2 for testing, Mistral for production, Llama 2 for best quality)
+4. **Run the training** using the appropriate `make` command
+5. **Test the fine-tuned model**
+6. **Integrate with your existing system**
 
 ## Example Commands
 
-### **Quick Test (Small Dataset)**
+### **Quick Test Training**
 ```bash
-python scripts/train.py \
-    --dataset small_test.json \
-    --epochs 1 \
-    --batch-size 2 \
-    --test
+# GPT2 test (fastest)
+make train-gpt2-gpu
+
+# Mistral test (good balance)
+make train-mistral-gpu
+
+# Llama 2 test (highest quality)
+make train-llama-gpu
 ```
 
-### **Production Training (Large Dataset)**
+### **Production Training**
+```bash
+# GPT2 full training
+make train-gpt2-full-gpu
+
+# Mistral full training
+make train-mistral-full-gpu
+
+# Llama 2 full training
+make train-llama-full-gpu
+```
+
+### **Manual Training**
 ```bash
 python scripts/train.py \
-    --dataset production_recipes.json \
+    --dataset datasets/full_recipe_dataset.json \
     --model meta-llama/Llama-2-7b-hf \
     --epochs 5 \
     --batch-size 4 \

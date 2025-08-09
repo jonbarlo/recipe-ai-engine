@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Training script for Recipe AI Engine using Hugging Face Transformers + PEFT (QLoRA).
+Training script for Recipe AI Engine using Mistral (good balance of quality and efficiency).
 
 Requirements (install from requirements-train.txt):
   - transformers, datasets, peft, accelerate, bitsandbytes, trl, torch (CUDA build)
 
 Notes:
-  - Models like meta-llama/Llama-2-7b-hf are gated: you must accept the license
-    and configure a Hugging Face token (HUGGINGFACE_HUB_TOKEN or `huggingface-cli login`).
-  - QLoRA enables 4-bit training of large models on smaller GPUs (~8–16GB VRAM).
-  - Output directory will contain LoRA adapters by default; you can optionally merge adapters.
+  - Mistral 7B is similar size to Llama 2 7B but often performs better
+  - Requires 16GB+ VRAM for QLoRA training
+  - Good balance between quality and resource usage
+  - Supports QLoRA for efficient fine-tuning
 """
 
 import argparse
@@ -70,15 +70,11 @@ def load_json_dataset(dataset_path: str) -> Dataset:
 
 
 def build_model_and_tokenizer(
-    base_model: str,
+    base_model: str = "mistralai/Mistral-7B-v0.1",
     use_qlora: bool = True,
-    trust_remote_code: bool = False,
 ):
-    # Prefer fast tokenizer; fall back to slow if sentencepiece/fast not available
-    try:
-        tokenizer = AutoTokenizer.from_pretrained(base_model, use_fast=True, trust_remote_code=trust_remote_code)
-    except Exception:
-        tokenizer = AutoTokenizer.from_pretrained(base_model, use_fast=False, trust_remote_code=trust_remote_code)
+    """Build Mistral model and tokenizer with QLoRA support."""
+    tokenizer = AutoTokenizer.from_pretrained(base_model)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -96,7 +92,6 @@ def build_model_and_tokenizer(
         model = AutoModelForCausalLM.from_pretrained(
             base_model,
             device_map="auto",
-            trust_remote_code=trust_remote_code,
             quantization_config=quant_config,
             torch_dtype=torch.bfloat16 if use_qlora else torch.float16,
         )
@@ -106,7 +101,6 @@ def build_model_and_tokenizer(
             model = AutoModelForCausalLM.from_pretrained(
                 base_model,
                 device_map="auto",
-                trust_remote_code=trust_remote_code,
                 quantization_config=quant_config,
                 torch_dtype=torch.bfloat16 if use_qlora else torch.float16,
                 llm_int8_enable_fp32_cpu_offload=True,
@@ -117,26 +111,17 @@ def build_model_and_tokenizer(
     return model, tokenizer
 
 
-def apply_lora(model, r: int, alpha: int, dropout: float, model_name: str = "llama"):
-    # Different models have different layer names
-    if "gpt2" in model_name.lower():
-        target_modules = [
-            "c_attn",
-            "c_proj",
-            "c_fc",
-            "c_proj",
-        ]
-    else:
-        # Default for Llama/Mistral models
-        target_modules = [
-            "q_proj",
-            "k_proj",
-            "v_proj",
-            "o_proj",
-            "gate_proj",
-            "up_proj",
-            "down_proj",
-        ]
+def apply_lora(model, r: int = 16, alpha: int = 32, dropout: float = 0.05):
+    """Apply LoRA to Mistral model with appropriate target modules."""
+    target_modules = [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj",
+    ]
     
     lora_config = LoraConfig(
         r=r,
@@ -150,10 +135,10 @@ def apply_lora(model, r: int, alpha: int, dropout: float, model_name: str = "lla
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Train (fine-tune) a base LLM for recipes using QLoRA")
+    parser = argparse.ArgumentParser(description="Train Mistral for recipe generation")
     parser.add_argument("--dataset", required=True, help="Path to JSON dataset file")
-    parser.add_argument("--output", required=True, help="Output directory for adapters or merged model")
-    parser.add_argument("--model", default="meta-llama/Llama-2-7b-hf", help="Base model HF id (use 'gpt2' for low VRAM testing)")
+    parser.add_argument("--output", required=True, help="Output directory for trained model")
+    parser.add_argument("--model", default="mistralai/Mistral-7B-v0.1", help="Mistral model variant")
     parser.add_argument("--epochs", type=int, default=3, help="Training epochs")
     parser.add_argument("--batch-size", type=int, default=2, help="Per-device batch size")
     parser.add_argument("--learning-rate", type=float, default=2e-4, help="Learning rate")
@@ -163,9 +148,8 @@ def parse_args():
     parser.add_argument("--lora-r", type=int, default=16, help="LoRA rank")
     parser.add_argument("--lora-alpha", type=int, default=32, help="LoRA alpha")
     parser.add_argument("--lora-dropout", type=float, default=0.05, help="LoRA dropout")
-    parser.add_argument("--merge-adapter", action="store_true", help="Merge LoRA adapters into base model (FP16)")
-    parser.add_argument("--trust-remote-code", action="store_true", help="Allow custom model code from HF")
-    parser.add_argument("--test", action="store_true", help="Run a small short test train")
+    parser.add_argument("--merge-adapter", action="store_true", help="Merge LoRA adapters into base model")
+    parser.add_argument("--test", action="store_true", help="Run a small test train")
     return parser.parse_args()
 
 
@@ -178,18 +162,17 @@ def main():
     if args.test:
         dataset = dataset.select(range(min(64, len(dataset))))
 
-    print("🤗 Loading base model and tokenizer...")
+    print("🤗 Loading Mistral model and tokenizer...")
     model, tokenizer = build_model_and_tokenizer(
         base_model=args.model,
         use_qlora=not args.no_qlora,
-        trust_remote_code=args.trust_remote_code,
     )
 
     if args.no_lora:
         print("⚠️ Training without LoRA adapters (requires significant VRAM).")
     else:
         print("🔧 Applying LoRA adapters...")
-        model = apply_lora(model, r=args.lora_r, alpha=args.lora_alpha, dropout=args.lora_dropout, model_name=args.model)
+        model = apply_lora(model, r=args.lora_r, alpha=args.lora_alpha, dropout=args.lora_dropout)
 
     print("🏋️ Starting supervised fine-tuning...")
     from transformers import TrainingArguments
@@ -220,18 +203,17 @@ def main():
 
     trainer.train()
 
-    print("💾 Saving adapters/tokenizer...")
+    print("💾 Saving model and tokenizer...")
     trainer.model.save_pretrained(args.output)
     tokenizer.save_pretrained(args.output)
 
     if args.merge_adapter and not args.no_lora:
-        print("🧬 Merging LoRA adapters into base model (FP16)...")
+        print("🧬 Merging LoRA adapters into base model...")
         # Reload base model in FP16 without quantization for a clean merge
         base_model_fp16 = AutoModelForCausalLM.from_pretrained(
             args.model,
             device_map="auto",
             torch_dtype=torch.float16,
-            trust_remote_code=args.trust_remote_code,
         )
         merged = base_model_fp16
         try:
@@ -247,12 +229,10 @@ def main():
         except Exception as merge_exc:
             print(f"❌ Merge failed: {merge_exc}")
 
-    print("✅ Training complete!")
-    print("➡️  Next: Optionally convert merged model to GGUF for Ollama using llama.cpp tools,")
-    print("    or set FINE_TUNED_MODEL_PATH to the merged model directory and run setup_fine_tuned_model.py.")
+    print("✅ Mistral training complete!")
+    print(f"➡️  Model saved to: {args.output}")
+    print("➡️  You can now use this model with Ollama or test it directly.")
 
 
 if __name__ == "__main__":
     main()
-
-
