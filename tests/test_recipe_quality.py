@@ -12,7 +12,7 @@ from recipe_ai_engine import RecipeRequest, RecipeGenerator
 def test_recipe_quality():
     """Test recipe generation quality with various challenging scenarios."""
     
-    print("🧪 Testing Recipe Generation Quality")
+    print("Testing Recipe Generation Quality")
     print("=" * 50)
     
     # Initialize the recipe generator
@@ -96,7 +96,7 @@ def test_recipe_quality():
     results = []
     
     for i, test_case in enumerate(test_cases, 1):
-        print(f"\n📋 Test {i}: {test_case['name']}")
+        print(f"\nTest {i}: {test_case['name']}")
         print(f"Description: {test_case['description']}")
         print(f"Ingredients: {', '.join(test_case['ingredients'])}")
         print("-" * 40)
@@ -129,14 +129,14 @@ def test_recipe_quality():
                 "success": True
             }
             
-            print(f"✅ Generated in {generation_time:.2f}s")
+            print(f"OK: Generated in {generation_time:.2f}s")
             print(f"Title: {recipe.title}")
             print(f"Instructions: {len(recipe.instructions)} steps")
             print(f"Quality Score: {analysis['quality_score']}/10")
             print(f"Issues: {', '.join(analysis['issues'])}")
             
         except Exception as e:
-            print(f"❌ Failed: {str(e)}")
+            print(f"FAIL: {str(e)}")
             result = {
                 "test_case": test_case['name'],
                 "ingredients": test_case['ingredients'],
@@ -149,21 +149,21 @@ def test_recipe_quality():
     
     # Summary analysis
     print("\n" + "=" * 50)
-    print("📊 SUMMARY ANALYSIS")
+    print("SUMMARY ANALYSIS")
     print("=" * 50)
     
     successful_tests = [r for r in results if r['success']]
     failed_tests = [r for r in results if not r['success']]
     
-    print(f"✅ Successful tests: {len(successful_tests)}/{len(test_cases)}")
-    print(f"❌ Failed tests: {len(failed_tests)}/{len(test_cases)}")
+    print(f"Successful tests: {len(successful_tests)}/{len(test_cases)}")
+    print(f"Failed tests: {len(failed_tests)}/{len(test_cases)}")
     
     if successful_tests:
         avg_time = sum(r['generation_time'] for r in successful_tests) / len(successful_tests)
         avg_quality = sum(r['analysis']['quality_score'] for r in successful_tests) / len(successful_tests)
         
-        print(f"⏱️  Average generation time: {avg_time:.2f}s")
-        print(f"⭐ Average quality score: {avg_quality:.1f}/10")
+        print(f"Average generation time: {avg_time:.2f}s")
+        print(f"Average quality score: {avg_quality:.1f}/10")
         
         # Most common issues
         all_issues = []
@@ -173,12 +173,12 @@ def test_recipe_quality():
         if all_issues:
             from collections import Counter
             issue_counts = Counter(all_issues)
-            print("\n🔍 Most common issues:")
+            print("\nMost common issues:")
             for issue, count in issue_counts.most_common(5):
                 print(f"  - {issue}: {count} times")
     
     if failed_tests:
-        print("\n❌ Failed test cases:")
+        print("\nFailed test cases:")
         for test in failed_tests:
             print(f"  - {test['test_case']}: {test['error']}")
     
@@ -188,7 +188,7 @@ def test_recipe_quality():
     with open(results_file, "w") as f:
         json.dump(results, f, indent=2, default=str)
     
-    print(f"\n📄 Detailed results saved to: {results_file}")
+    print(f"\nDetailed results saved to: {results_file}")
     
     return results
 

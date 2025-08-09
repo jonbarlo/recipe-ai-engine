@@ -1,0 +1,46 @@
+# Recipe AI Engine - FastAPI Requests (VS Code REST Client)
+# Requires the "REST Client" extension in VS Code
+
+@baseUrl = http://localhost:8000
+@contentType = application/json
+
+### Health Check
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### Generate Recipe - Basic Example
+POST {{baseUrl}}/recipes/generate
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "ingredients": ["chicken breast", "rice", "vegetables"],
+  "cuisine_type": "Asian",
+  "difficulty_level": "medium",
+  "serving_size": 2
+}
+
+### Generate Recipe - Vegan Request
+POST {{baseUrl}}/recipes/generate
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "ingredients": ["tofu", "broccoli", "soy sauce", "garlic"],
+  "cuisine_type": "Asian",
+  "dietary_restrictions": ["vegan"],
+  "difficulty_level": "easy",
+  "serving_size": 3
+}
+
+### Generate Recipe - Italian Style
+POST {{baseUrl}}/recipes/generate
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "ingredients": ["pasta", "tomato", "basil", "olive oil", "garlic"],
+  "cuisine_type": "Italian",
+  "difficulty_level": "medium",
+  "serving_size": 4
+}

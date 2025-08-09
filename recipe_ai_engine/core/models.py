@@ -4,6 +4,7 @@ Pydantic models for Recipe AI Engine
 
 from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
+from typing import Literal
 
 
 class RecipeRequest(BaseModel):
@@ -60,3 +61,9 @@ class RecipeResponse(BaseModel):
                 "dietary_notes": "Contains meat"
             }
         } 
+
+
+class HealthResponse(BaseModel):
+    """Health check response model"""
+    status: Literal["ok", "degraded"] = Field(..., description="Service status")
+    model: str = Field(..., description="Configured Ollama model name")

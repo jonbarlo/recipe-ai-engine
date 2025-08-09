@@ -9,7 +9,7 @@ from recipe_ai_engine import RecipeRequest, RecipeResponse, RecipeGenerator, Oll
 def test_recipe_generation():
     """Test recipe generation functionality and project structure"""
     
-    print("🧪 Testing Recipe AI Engine Generation")
+    print("Testing Recipe AI Engine Generation")
     print("=" * 50)
     
     # Test 1: Import and basic functionality
@@ -24,13 +24,13 @@ def test_recipe_generation():
             difficulty_level="easy"
         )
         
-        print("✅ RecipeRequest created successfully")
+        print("OK: RecipeRequest created successfully")
         print(f"   Ingredients: {request.ingredients}")
         print(f"   Cuisine: {request.cuisine_type}")
         print(f"   Servings: {request.serving_size}")
         
     except Exception as e:
-        print(f"❌ Failed to create RecipeRequest: {e}")
+        print(f"FAIL: Failed to create RecipeRequest: {e}")
         return
     
     # Test 2: AI Model connection
@@ -40,13 +40,13 @@ def test_recipe_generation():
         generator = OllamaRecipeGenerator()
         
         if generator.test_connection():
-            print("✅ Ollama connection successful")
+            print("OK: Ollama connection successful")
         else:
-            print("❌ Ollama connection failed")
+            print("WARN: Ollama connection not available; skipping generation test against Ollama")
             return
             
     except Exception as e:
-        print(f"❌ Failed to test connection: {e}")
+        print(f"FAIL: Failed to test connection: {e}")
         return
     
     # Test 3: Recipe generation
@@ -55,7 +55,7 @@ def test_recipe_generation():
     try:
         recipe = generator.generate_recipe(request)
         
-        print("✅ Recipe generated successfully")
+        print("OK: Recipe generated successfully")
         print(f"   Title: {recipe.title}")
         print(f"   Ingredients: {len(recipe.ingredients)} items")
         print(f"   Instructions: {len(recipe.instructions)} steps")
@@ -64,7 +64,7 @@ def test_recipe_generation():
         print(f"   Servings: {recipe.servings}")
         
     except Exception as e:
-        print(f"❌ Failed to generate recipe: {e}")
+        print(f"FAIL: Failed to generate recipe: {e}")
         return
     
     # Test 4: Main RecipeGenerator with validation
@@ -75,16 +75,16 @@ def test_recipe_generation():
         
         recipe = main_generator.generate_recipe(request)
         
-        print("✅ Main generator with validation successful")
+        print("OK: Main generator with validation successful")
         print(f"   Title: {recipe.title}")
         print(f"   Cuisine: {recipe.cuisine_type}")
         print(f"   Dietary notes: {recipe.dietary_notes}")
         
     except Exception as e:
-        print(f"❌ Failed to use main generator: {e}")
+        print(f"FAIL: Failed to use main generator: {e}")
         return
     
-    print("\n✅ All tests passed! Recipe generation is working correctly.")
+    print("\nAll tests passed! Recipe generation is working correctly.")
 
 
 if __name__ == "__main__":

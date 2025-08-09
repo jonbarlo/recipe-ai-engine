@@ -21,6 +21,7 @@ help:
 	@echo.
 	@echo API:
 	@echo   api            - Run FastAPI server with uvicorn
+	@echo   api-dev        - Run FastAPI server with auto-reload (development)
 	@echo.
 	@echo Development:
 	@echo   setup-model    - Setup fine-tuned recipe model
@@ -74,6 +75,10 @@ recipe-quick:
 api:
 	@echo Starting FastAPI server on http://localhost:8000 ...
 	uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000
+
+api-dev:
+	@echo Starting FastAPI server (dev, auto-reload) on http://localhost:8000 ...
+	uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000 --reload
 
 # Development commands
 setup-model:

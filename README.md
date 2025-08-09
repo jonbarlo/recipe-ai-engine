@@ -278,12 +278,16 @@ for i, step in enumerate(recipe.instructions, 1):
     print(f"{i}. {step}")
 ```
 
-### Web API (FastAPI)
+## Web API (FastAPI)
 
 Start the API server:
 
 ```bash
-uvicorn recipe_ai_engine.api.routes:app --host 0.0.0.0 --port 8000
+# Production-like (no reload)
+make api
+
+# Development (auto-reload on code changes)
+make api-dev
 ```
 
 Interactive docs will be available at `http://localhost:8000/docs`.
@@ -291,6 +295,36 @@ Interactive docs will be available at `http://localhost:8000/docs`.
 Endpoints:
 - `GET /health`
 - `POST /recipes/generate`
+
+### Sample request
+
+Using curl:
+```bash
+curl -X POST http://localhost:8000/recipes/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+        "ingredients": ["chicken", "rice", "vegetables"],
+        "cuisine_type": "Asian",
+        "difficulty_level": "medium",
+        "serving_size": 2
+      }'
+```
+
+Using Python:
+```python
+import requests
+
+payload = {
+  "ingredients": ["chicken", "rice", "vegetables"],
+  "cuisine_type": "Asian",
+  "difficulty_level": "medium",
+  "serving_size": 2
+}
+
+resp = requests.post("http://localhost:8000/recipes/generate", json=payload, timeout=60)
+resp.raise_for_status()
+print(resp.json())
+```
 
 ### Advanced Usage
 
